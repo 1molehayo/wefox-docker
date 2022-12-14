@@ -13,7 +13,7 @@ export default function Layout(WrappedComponent: React.FC) {
       <div>
         <Header />
 
-        <main className="page__body">
+        <main className="page-body">
           <WrappedComponent {...props} />
         </main>
 

@@ -6,11 +6,14 @@
     "stylelint-config-standard-scss"
   ],
   "plugins": ["stylelint-prettier"],
-  "ignoreFiles": ["**/*.html", "node_modules/**/*.css"],
+  "ignoreFiles": [
+    "**/*.html",
+    "node_modules/**/*.css",
+    "node_modules/**/*.scss"
+  ],
   "rules": {
     "prettier/prettier": true,
     "at-rule-no-unknown": null,
-    "font-family-no-missing-generic-family-keyword": null,
     "no-missing-end-of-source-newline": null,
     "no-empty-source": null,
     "shorthand-property-no-redundant-values": null,
@@ -41,6 +44,7 @@
     "max-empty-lines": null,
     "scss/dollar-variable-empty-line-before": "always",
     "declaration-colon-newline-after": null,
-    "value-list-comma-newline-after": null
+    "value-list-comma-newline-after": null,
+    "font-family-name-quotes": "always-where-recommended"
   }
 }

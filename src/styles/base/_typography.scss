@@ -2,6 +2,14 @@ h1,
 h2,
 h3 {
   @include font-weight(bold);
+
+  font-size: 2rem;
+  line-height: 1.25;
+
+  @include respond(large) {
+    font-size: 3.125rem;
+    line-height: 1.04;
+  }
 }
 
 h4,

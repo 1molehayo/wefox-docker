@@ -15,7 +15,8 @@ body {
   @include font-weight(regular);
 
   box-sizing: border-box;
-  color: color(dark-purple);
+  color: color(primary-dark);
+  /* stylelint-disable-next-line font-family-name-quotes */
   font-family: 'Kyn', sans-serif;
   letter-spacing: normal;
   line-height: normal;

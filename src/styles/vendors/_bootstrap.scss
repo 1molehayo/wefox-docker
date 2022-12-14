@@ -1,1 +1,8 @@
-@import '~bootstrap/dist/css/bootstrap.min.css';
+$theme-colors: (
+  info: tomato,
+  danger: teal,
+  primary: #501e96,
+  secondary: #28d7dc
+);
+
+@import '~bootstrap/scss/bootstrap';

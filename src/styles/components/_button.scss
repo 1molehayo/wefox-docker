@@ -1,0 +1,22 @@
+.btn {
+  @include font-weight(medium);
+
+  display: inline-block;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s;
+  border-radius: 2rem;
+
+  &-subtle {
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+    color: color(dark-purple);
+
+    &:hover {
+      border-color: transparent;
+      background: transparent;
+      box-shadow: none;
+      color: color(primary-dark);
+    }
+  }
+}
