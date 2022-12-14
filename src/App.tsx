@@ -1,11 +1,15 @@
-import React from "react";
+import React from 'react';
+import { Container } from 'react-bootstrap';
+import Layout from './layouts';
 
 function App() {
   return (
-    <div>
-      <h1>Home</h1>
-    </div>
+    <section className="home">
+      <Container>
+        <h1>Home</h1>
+      </Container>
+    </section>
   );
 }
 
-export default App;
+export default Layout(App);

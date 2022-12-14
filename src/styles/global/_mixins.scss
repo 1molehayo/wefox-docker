@@ -1,0 +1,17 @@
+@mixin font-size($keyword) {
+  font-size: get-font-size($keyword);
+}
+
+@mixin font-weight($keyword) {
+  font-weight: get-font-weight($keyword);
+}
+
+@mixin respond($keyword) {
+  // default will be small mobile phones
+
+  @if get-break-point($keyword) {
+    @media only screen and (min-width: get-break-point($keyword)) {
+      @content;
+    }
+  }
+}

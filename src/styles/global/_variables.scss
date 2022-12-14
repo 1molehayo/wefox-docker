@@ -1,0 +1,54 @@
+$colors: (
+  ash: #f2f2f2,
+  black: #000,
+  dark: #1d1d1d,
+  dark-purple: #301254,
+  grey: #656565,
+  light-grey: #eee,
+  primary: #501e96,
+  secondary: #28d7dc,
+  red: #f00,
+  white: #fff
+);
+
+$font-weights: (
+  regular: 400,
+  medium: 500,
+  bold: 700
+);
+
+$font-sizes: (
+  xx-small: 0.9rem,
+  x-small: 1.2rem,
+  small: 1.4rem,
+  regular: 1.6rem,
+  medium: 1.8rem,
+  large: 2.4rem,
+  m-large: 3rem,
+  x-large: 3.5rem
+);
+
+// mobile first
+
+$break-points: (
+  // large mobile phones
+  extra-small: 0,
+  // small tabs or phablets
+  small: 600px,
+  // tabs and ipads
+  medium: 900px,
+  // large tabs / large ipads / small laptops
+  large: 1200px,
+  // laptops / desktops
+  extra-large: 1536px
+);
+
+$device-sizes: (
+  xs: 'extra-small',
+  sm: 'small',
+  md: 'medium',
+  lg: 'large',
+  xl: 'extra-large'
+);
+
+$sides: (top, bottom, left, right);

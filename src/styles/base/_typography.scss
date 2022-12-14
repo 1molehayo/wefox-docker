@@ -1,0 +1,29 @@
+h1,
+h2,
+h3 {
+  @include font-weight(bold);
+}
+
+h4,
+h5,
+h6 {
+  @include font-size(large);
+}
+
+p,
+li,
+a {
+  @include font-weight(regular);
+  @include font-size(medium);
+
+  letter-spacing: 0.2px;
+  line-height: 1.6;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+ul {
+  list-style: none;
+}
