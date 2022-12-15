@@ -4,7 +4,6 @@ import SubHeader from 'components/SubHeader';
 import Layout from 'layouts';
 import { MobileContext } from 'contexts/Mobile';
 import DataCard from 'components/DataCard';
-import { useFetch } from 'usehooks-ts';
 import DataTable from 'components/DataTable';
 import IPost from 'models/Post';
 import ContextMenu from 'components/Context';
@@ -19,9 +18,14 @@ import { PAGE_SIZE } from 'utilities/constants';
 import ViewModal from 'components/ViewModal';
 import DeleteObject from 'models/DeleteObject';
 import FloatingButton from 'components/FloatingButton';
+import { PostContext } from 'contexts/Posts';
+import Loader from 'components/Loader';
+import { notify } from 'utilities/toaster';
 
 function Home() {
   const { isMobile } = React.useContext(MobileContext);
+  const { fetchPosts, posts, error, loading } = React.useContext(PostContext);
+
   const [selectedViewPost, setSelectedViewPost] = React.useState<
     IPost | undefined
   >();
@@ -38,9 +42,17 @@ function Home() {
     setCurrentPage(pageNumber);
   };
 
-  const { data, error } = useFetch<IPost[]>(
-    'http://localhost:4000/api/v1/posts'
-  );
+  if (error) {
+    notify({
+      type: 'error',
+      message: error
+    });
+  }
+
+  React.useEffect(() => {
+    fetchPosts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -65,18 +77,24 @@ function Home() {
         <div className="section">
           <Container>
             {isMobile ? (
-              <Row>
-                {data?.map((item, i) => (
-                  <DataCard
-                    key={i}
-                    data={item}
-                    onClick={() => setSelectedViewPost(item)}
-                  />
-                ))}
-              </Row>
+              <div className="position-relative">
+                {loading && <Loader isLoading />}
+
+                {!loading && (
+                  <Row>
+                    {posts?.map((item, i) => (
+                      <DataCard
+                        key={i}
+                        data={item}
+                        onClick={() => setSelectedViewPost(item)}
+                      />
+                    ))}
+                  </Row>
+                )}
+              </div>
             ) : (
-              <DataTable loading={!data || !!error}>
-                {data?.map((item, j) => (
+              <DataTable loading={loading}>
+                {posts?.map((item, j) => (
                   <tr key={j}>
                     <td>
                       <span className="post__avatar">
@@ -153,11 +171,11 @@ function Home() {
               </DataTable>
             )}
 
-            {data && data?.length % PAGE_SIZE > 0 && (
+            {posts && posts?.length % PAGE_SIZE > 0 && (
               <div className="mt-4">
                 <Pagination
                   currentPage={parseInt(`${currentPage}`, 10)}
-                  totalCount={data?.length || 0}
+                  totalCount={posts?.length || 0}
                   onPageChange={(page) => handlePageChange(page)}
                 />
               </div>

@@ -1,5 +1,4 @@
 import React, { useState, createContext } from 'react';
-import PropTypes from 'prop-types';
 import { useEventListener, useIsomorphicLayoutEffect } from 'usehooks-ts';
 
 export const MobileContext = createContext({
@@ -38,10 +37,6 @@ const MobileContextProvider = ({ children }: IMobile) => {
       {children}
     </MobileContext.Provider>
   );
-};
-
-MobileContextProvider.propTypes = {
-  children: PropTypes.node
 };
 
 export default MobileContextProvider;

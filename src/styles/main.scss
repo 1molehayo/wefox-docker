@@ -6,6 +6,7 @@
 // vendors
 @import 'vendors/bootstrap';
 @import 'vendors/toastify';
+@import 'vendors/autocomplete';
 
 // base
 @import 'base/resets';
@@ -19,6 +20,7 @@
 @import 'components/context';
 @import 'components/data-table';
 @import 'components/floating-button';
+@import 'components/form-file';
 @import 'components/loader';
 @import 'components/no-data';
 @import 'components/pagination';

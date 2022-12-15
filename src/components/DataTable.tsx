@@ -52,7 +52,7 @@ const DataTable = ({
         {!loading && <tbody>{children}</tbody>}
       </ReactTable>
 
-      {loading && <Loader isLoading />}
+      {loading && <Loader isLoading fluid />}
 
       {!loading && (!children || !React.Children.count(children)) && (
         <NoData description={noDataDescription} className={noDataClass} />

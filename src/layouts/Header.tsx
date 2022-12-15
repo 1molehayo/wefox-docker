@@ -10,7 +10,7 @@ const Header = () => {
       <Navbar bg="light" expand="xl" sticky="top">
         <div className="navbar-primary">
           <Navbar.Brand href="/">
-            <Logo width={105} height="auto" color="#501e96" />
+            <Logo width={105} height="100%" color="#501e96" />
           </Navbar.Brand>
         </div>
 
