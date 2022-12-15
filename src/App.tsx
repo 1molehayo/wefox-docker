@@ -1,16 +1,22 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
-import SubHeader from 'components/SubHeader';
-import Layout from './layouts';
+import MobileContextProvider from 'contexts/Mobile';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+
+import Home from 'pages/Home';
+import NotFound from 'pages/NotFound';
 
 function App() {
   return (
-    <section className="home">
-      <SubHeader title="Posts" />
-
-      <Container></Container>
-    </section>
+    <MobileContextProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/404" element={<NotFound />} />
+          <Route path="*" element={<Navigate to="/404" />} />
+        </Routes>
+      </BrowserRouter>
+    </MobileContextProvider>
   );
 }
 
-export default Layout(App);
+export default App;

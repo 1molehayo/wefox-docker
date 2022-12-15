@@ -1,0 +1,82 @@
+/* stylelint-disable font-family-name-quotes */
+.pagination {
+  margin: 0 auto;
+
+  &--mobile {
+    width: 100%;
+    padding: 0 32px 20px;
+    overflow-x: auto;
+  }
+
+  @include respond(large) {
+    margin: 0;
+  }
+
+  &__label {
+    @include font-size(regular);
+
+    margin-bottom: 1rem;
+    font-family: 'Kyn', sans-serif;
+
+    @include respond(large) {
+      margin-bottom: 0;
+    }
+  }
+
+  .page-link {
+    padding: 6px 12px;
+    border: 0;
+    border-radius: 5px;
+    color: #a9abb6;
+    font-family: 'Kyn', sans-serif;
+  }
+
+  .page-item {
+    margin: 0 1rem;
+    cursor: pointer;
+
+    &.active {
+      .page-link {
+        background-color: color(primary);
+      }
+    }
+
+    &:first-child,
+    &:last-child {
+      .page-link {
+        border-radius: 5px;
+      }
+    }
+
+    &--disabled {
+      opacity: 0.7;
+    }
+
+    &--arrow {
+      position: absolute;
+      z-index: 4;
+      margin: 0;
+      background: color(white);
+
+      &:first-child {
+        left: 0;
+      }
+
+      &:last-child {
+        right: 0;
+      }
+    }
+  }
+
+  &-wrapper {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+
+    @include respond(large) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+}

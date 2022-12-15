@@ -1,0 +1,102 @@
+.data-table {
+  @include respond(large) {
+    font-size: 1rem;
+  }
+
+  width: 100%;
+  font-size: 0.875rem;
+
+  &-container {
+    position: relative;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  thead {
+    @include font-weight(medium);
+
+    color: color(primary);
+  }
+
+  th,
+  td {
+    padding: 2.4rem 1rem;
+    border-bottom: 5px solid color(white);
+    background-color: color(ash);
+
+    p,
+    li,
+    a {
+      @include font-size(small);
+
+      @include respond(large) {
+        @include font-size(regular);
+      }
+    }
+  }
+
+  td {
+    &:not(:last-child) {
+      min-width: 100px;
+    }
+
+    .post {
+      &__avatar {
+        display: inline-block;
+        position: relative;
+        border-radius: 50%;
+        background-color: color(primary);
+
+        &-img {
+          position: relative;
+          z-index: 1;
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          object-fit: cover;
+          object-position: center;
+        }
+
+        .broken-image {
+          position: absolute;
+          z-index: 0;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          color: color(white);
+        }
+      }
+    }
+  }
+
+  // last column is sticky
+  &.col-sticky {
+    tr > th:last-child,
+    tr > td:last-child {
+      position: sticky;
+      z-index: 1;
+      right: 0;
+    }
+  }
+
+  tbody {
+    & > tr:hover > * {
+      background-color: rgba($color: color(secondary), $alpha: 40%);
+    }
+  }
+
+  ul {
+    li {
+      padding: 5px 0;
+      border-bottom: 1px solid rgba($color: color(secondary), $alpha: 40%);
+
+      &:first-child {
+        padding-top: 0;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+}

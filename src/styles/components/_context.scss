@@ -1,0 +1,38 @@
+.context {
+  z-index: 3;
+
+  &__item {
+    @include font-size(small);
+
+    display: block;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+
+    span {
+      margin-right: 0.5rem;
+    }
+
+    &:hover {
+      background-color: #f8f9fa;
+    }
+  }
+
+  &__menu {
+    @include context-menu;
+
+    will-change: transform;
+    min-width: 120px;
+    padding: 1rem 0;
+    border-radius: 0;
+    font-size: 0.75rem;
+  }
+
+  &__toggle {
+    z-index: 1;
+    padding: 1rem;
+    border: 1px solid transparent;
+    background-color: transparent;
+    color: color(primary);
+    font-size: 4px;
+  }
+}

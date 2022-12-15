@@ -15,3 +15,30 @@
     }
   }
 }
+
+@mixin transform($value) {
+  -webkit-transform: $value;
+  -ms-transform: $value;
+  transform: $value;
+}
+
+@mixin box-shadow($content) {
+  -webkit-box-shadow: $content;
+  box-shadow: $content;
+}
+
+@mixin context-menu {
+  @include transform(translate3d(-100px, 30px, 0));
+  @include box-shadow(0 1px 15px 5px #e6eaec);
+
+  will-change: transform;
+  width: max-content;
+  animation-name: dropdown-animation;
+  animation-duration: 350ms;
+  animation-fill-mode: both;
+  background-color: color(white);
+
+  &.show {
+    display: block;
+  }
+}
