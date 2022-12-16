@@ -11,7 +11,7 @@ Find the details of how to run the API server in the README of the Docker reposi
 
 ### `docker compose up`
 
-Dockerized API that operates over a single resource called posts.\
+Dockerized API that operates over a single resource called posts runs on the port below.\
 Open [http://localhost:3000/api/v1/posts](http://localhost:3000/api/v1/posts) to view it in postman.
 
 ## Client
