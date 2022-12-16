@@ -1,13 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { Button, Form } from 'react-bootstrap';
 import IPost from 'models/Post';
+import GenericObject from 'models/Generic';
 
 interface IImageUpload {
+  errors?: GenericObject;
   form: IPost;
-  updateForm: React.Dispatch<React.SetStateAction<IPost>>;
+  // eslint-disable-next-line no-unused-vars
+  setErrors?: (val: GenericObject) => void;
+  // eslint-disable-next-line no-unused-vars
+  updateForm: (post: any) => void;
 }
 
-const ImageUpload = ({ form, updateForm }: IImageUpload) => {
+const ImageUpload = ({ form, errors, setErrors, updateForm }: IImageUpload) => {
   const handleOpenWidget = () => {
     const myWidget = window.cloudinary.createUploadWidget(
       {
@@ -17,11 +23,26 @@ const ImageUpload = ({ form, updateForm }: IImageUpload) => {
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (error: any, result: { event: string; info: any }) => {
-        if (!error && result && result.event === 'success') {
-          updateForm({
-            ...form,
-            image_url: result.info.secure_url
-          });
+        const temp = { ...errors };
+
+        if (setErrors) {
+          if (error) {
+            updateForm((prevState: any) => {
+              return { ...prevState, image_url: '' };
+            });
+            temp.image_url = true;
+            setErrors(temp);
+            return;
+          }
+
+          if (!error && result && result.event === 'success') {
+            temp.image_url = false;
+
+            updateForm((prevState: any) => {
+              return { ...prevState, image_url: result.info.secure_url };
+            });
+            setErrors(temp);
+          }
         }
       }
     );
@@ -31,7 +52,9 @@ const ImageUpload = ({ form, updateForm }: IImageUpload) => {
 
   return (
     <Form.Group className="form-file mb-5" controlId="imageField">
-      <Form.Label className="form-label">Upload Image</Form.Label>
+      <Form.Label className="form-label">
+        Upload Image <span className="color-red">*</span>
+      </Form.Label>
       <Button
         id="upload-widget"
         className="form-file__button ms-4"
@@ -39,6 +62,12 @@ const ImageUpload = ({ form, updateForm }: IImageUpload) => {
       >
         Select
       </Button>
+
+      {errors && errors?.image_url && (
+        <Form.Control.Feedback type="invalid" className="d-block">
+          Please upload an image to proceed!
+        </Form.Control.Feedback>
+      )}
 
       {form.image_url && (
         <div className="form-file__preview">

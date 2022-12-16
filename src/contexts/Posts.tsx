@@ -103,16 +103,19 @@ const PostContextProvider = ({ children }: IProps) => {
   const updatePosts = (newPost: IPost) => {
     return new Promise<void>((resolve, reject) => {
       dispatch({ type: UPDATING_POST });
+      const obj = { ...newPost };
+      delete obj.id;
 
       axios
-        .get('/')
-        .then(() => {
+        .put(`/${newPost.id}`, obj)
+        .then((response) => {
           const newPosts = state.posts.map((item: IPost) => {
             if (item.id === newPost.id) {
-              return newPost;
+              return response.data;
             }
             return item;
           });
+
           dispatch({
             type: UPDATE_POST_SUCCESS,
             posts: [...newPosts]
@@ -134,7 +137,7 @@ const PostContextProvider = ({ children }: IProps) => {
       dispatch({ type: DELETING_POST });
 
       axios
-        .get('/')
+        .delete(`/${id}`)
         .then(() => {
           dispatch({
             type: DELETE_POST_SUCCESS,

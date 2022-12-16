@@ -7,3 +7,9 @@
     color: $color !important;
   }
 }
+
+@each $name, $weight in $font-weights {
+  .font-#{'' + $name} {
+    font-weight: $weight !important;
+  }
+}

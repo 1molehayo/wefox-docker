@@ -15,3 +15,25 @@ export const UPDATE_POST_FAIL = 'UPDATE_POST_FAIL';
 export const DELETING_POST = 'DELETING_POST';
 export const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS';
 export const DELETE_POST_FAIL = 'DELETE_POST_FAIL';
+
+export const DEFAULT_PROPS = {
+  center: {
+    lat: 6.445944600000001,
+    lng: 3.437407
+  },
+  zoom: 10
+};
+
+export const MAP_OPTIONS = {
+  componentRestrictions: { country: 'ng' },
+  fields: [
+    'address_components',
+    'geometry',
+    'icon',
+    'name',
+    'formatted_address',
+    'place_id',
+    'plus_code'
+  ],
+  types: ['establishment']
+};

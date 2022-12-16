@@ -2,6 +2,9 @@ import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import IPost from 'models/Post';
 import { formatDate } from 'utilities';
+import DeleteObject from 'models/DeleteObject';
+import ConfirmationModal from './ConfirmationModal';
+import PostForm from './PostForm';
 
 interface IViewModal {
   data?: IPost;
@@ -9,64 +12,103 @@ interface IViewModal {
 }
 
 const ViewModal = ({ data, handleClose }: IViewModal) => {
+  const [selectedEditPost, setSelectedEditPost] = React.useState<
+    IPost | undefined
+  >();
+
+  const [deletePost, setDeletePost] = React.useState<
+    DeleteObject | undefined
+  >();
+
   return (
-    <Modal
-      show={!!data}
-      onHide={() => handleClose()}
-      centered
-      size="lg"
-      scrollable
-    >
-      <Modal.Header closeButton>
-        <Modal.Title>{data?.title}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <div className="view-post__row">
-          <p className="view-post__title">title:</p>
-          <p className="view-post__desc">{data?.title}</p>
-        </div>
+    <>
+      <ConfirmationModal
+        data={deletePost}
+        handleClose={() => setDeletePost(undefined)}
+      />
 
-        <div className="view-post__row">
-          <p className="view-post__title">Date updated:</p>
-          <p className="view-post__desc">{formatDate(data?.updated_at)}</p>
-        </div>
+      <PostForm
+        show={!!selectedEditPost}
+        data={selectedEditPost}
+        handleClose={() => setSelectedEditPost(undefined)}
+      />
 
-        <div className="view-post__row view-post__row--grid">
-          <div className="view-post__col">
-            <p className="view-post__title">Longitude</p>
-            <p className="view-post__desc">{data?.long}</p>
+      <Modal
+        show={!!data}
+        onHide={() => handleClose()}
+        centered
+        size="lg"
+        scrollable
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>{data?.title}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="row">
+            <div className="col-12 mb-4">
+              <p className="mb-1">
+                <small>Title:</small>
+              </p>
+              <p className="font-medium">{data?.title}</p>
+            </div>
+
+            <div className="col-12 mb-4">
+              <p className="mb-1">
+                <small>Date updated:</small>
+              </p>
+              <p className="font-medium">{formatDate(data?.updated_at)}</p>
+            </div>
+
+            <div className="col-md-6 mb-4">
+              <p className="mb-1">
+                <small>Longitude</small>
+              </p>
+              <p className="font-medium">{data?.long}</p>
+            </div>
+
+            <div className="col-md-6 mb-4">
+              <p className="mb-1">
+                <small>Latitude</small>
+              </p>
+              <p className="font-medium">{data?.lat}</p>
+            </div>
+
+            <div className="col-12 mb-4">
+              <img src={data?.image_url} width="100%" height={300} />
+            </div>
+
+            <div className="col-12 mb-4">
+              <p className="mb-1">
+                <small>Content:</small>
+              </p>
+              <p className="font-medium">{data?.content}</p>
+            </div>
           </div>
+        </Modal.Body>
 
-          <div className="view-post__col">
-            <p className="view-post__title">Latitude</p>
-            <p className="view-post__desc">{data?.lat}</p>
-          </div>
-        </div>
+        <Modal.Footer>
+          <Button variant="outline" className="me-3" onClick={handleClose}>
+            Close
+          </Button>
 
-        <div className="view-post__row">
-          <img src={data?.image_url} width="100%" height={300} />
-        </div>
+          <Button variant="primary" onClick={() => setSelectedEditPost(data)}>
+            Edit
+          </Button>
 
-        <div className="view-post__row">
-          <p className="view-post__title">Content:</p>
-          <p className="view-post__desc">{data?.content}</p>
-        </div>
-      </Modal.Body>
-
-      <Modal.Footer>
-        <Button variant="outline" className="me-3" onClick={handleClose}>
-          Close
-        </Button>
-
-        <Button variant="primary" onClick={handleClose}>
-          Edit
-        </Button>
-
-        <Button variant="danger" onClick={handleClose}>
-          Delete
-        </Button>
-      </Modal.Footer>
-    </Modal>
+          <Button
+            variant="danger"
+            onClick={() =>
+              setDeletePost({
+                id: data?.id,
+                title: data?.title ?? ''
+              })
+            }
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
 

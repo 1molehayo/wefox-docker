@@ -13,6 +13,9 @@
     display: flex;
     align-items: center;
     width: 200px;
+    padding: 5px;
+    border: 1px solid color(primary);
+    background: color(white);
 
     svg {
       color: color(primary);
@@ -24,7 +27,7 @@
       margin-bottom: 0;
       color: color(primary-dark);
       font-size: 12px;
-      line-height: 1;
+      line-height: 1.2;
     }
   }
 }

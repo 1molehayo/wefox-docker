@@ -3,6 +3,9 @@ import {
   CREATE_POST_FAIL,
   CREATE_POST_SUCCESS,
   CREATING_POST,
+  DELETE_POST_FAIL,
+  DELETE_POST_SUCCESS,
+  DELETING_POST,
   FETCHING_POSTS,
   FETCH_POSTS_FAIL,
   FETCH_POSTS_SUCCESS,
@@ -35,25 +38,36 @@ const reducer = (
       return { ...state, error: action.error, loading: false };
 
     case CREATING_POST:
-      return { ...state, loading: true };
+      return { ...state, updating: true };
     case CREATE_POST_SUCCESS:
       return {
         ...state,
-        loading: false,
+        updating: false,
         posts: [...state.posts, action.singlePost]
       };
     case CREATE_POST_FAIL:
       return { ...state, error: action.error, updating: false };
 
     case UPDATING_POST:
-      return { ...state, loading: true };
+      return { ...state, updating: true };
     case UPDATE_POST_SUCCESS:
       return {
         ...state,
-        loading: false,
-        posts: [...state.posts, action.singlePost]
+        updating: false,
+        posts: action.posts
       };
     case UPDATE_POST_FAIL:
+      return { ...state, error: action.error, updating: false };
+
+    case DELETING_POST:
+      return { ...state, updating: true };
+    case DELETE_POST_SUCCESS:
+      return {
+        ...state,
+        updating: false,
+        posts: action.posts
+      };
+    case DELETE_POST_FAIL:
       return { ...state, error: action.error, updating: false };
 
     default:

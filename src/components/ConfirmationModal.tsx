@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import axios from 'services/axios';
 import DeleteObject from 'models/DeleteObject';
+import { PostContext } from 'contexts/Posts';
+import { notify } from 'utilities/toaster';
 
 interface IConfirmationModal {
   data?: DeleteObject;
@@ -9,21 +10,22 @@ interface IConfirmationModal {
 }
 
 const ConfirmationModal = ({ data, handleClose }: IConfirmationModal) => {
-  const [loading, setLoading] = React.useState(false);
+  const { removePost, updating } = React.useContext(PostContext);
 
   const onDelete = async () => {
     if (!data || !data?.id) {
       return;
     }
 
-    setLoading(true);
     try {
-      await axios.delete(`/${data.id}`);
-      console.log('Deleted successfully!');
+      await removePost(data.id);
+      notify({
+        type: 'success',
+        message: `${data.title} was deleted successfully`
+      });
     } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
+      // eslint-disable-next-line no-console
+      console.error(error);
     }
   };
 
@@ -49,7 +51,7 @@ const ConfirmationModal = ({ data, handleClose }: IConfirmationModal) => {
 
       <Modal.Footer>
         <Button onClick={onDelete} variant="outline">
-          {loading ? 'Loading...' : 'Yes Delete'}
+          {updating ? 'Loading...' : 'Yes Delete'}
         </Button>
 
         <Button className="ms-4" variant="danger" onClick={() => handleClose()}>

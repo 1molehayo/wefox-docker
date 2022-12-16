@@ -29,6 +29,7 @@ function Home() {
   const [selectedViewPost, setSelectedViewPost] = React.useState<
     IPost | undefined
   >();
+
   const [selectedEditPost, setSelectedEditPost] = React.useState<
     IPost | undefined
   >();
