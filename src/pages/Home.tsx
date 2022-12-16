@@ -21,10 +21,10 @@ import FloatingButton from 'components/FloatingButton';
 import { PostContext } from 'contexts/Posts';
 import Loader from 'components/Loader';
 import { notify } from 'utilities/toaster';
-
 function Home() {
   const { isMobile } = React.useContext(MobileContext);
-  const { fetchPosts, posts, error, loading } = React.useContext(PostContext);
+  const { fetchPosts, filteredPosts, error, loading } =
+    React.useContext(PostContext);
 
   const [selectedViewPost, setSelectedViewPost] = React.useState<
     IPost | undefined
@@ -37,6 +37,7 @@ function Home() {
   const [deletePost, setDeletePost] = React.useState<
     DeleteObject | undefined
   >();
+
   const [currentPage, setCurrentPage] = React.useState<string | number>(1);
 
   const handlePageChange = (pageNumber: string | number) => {
@@ -83,7 +84,7 @@ function Home() {
 
                 {!loading && (
                   <Row>
-                    {posts?.map((item, i) => (
+                    {filteredPosts?.map((item, i) => (
                       <DataCard
                         key={i}
                         data={item}
@@ -95,7 +96,7 @@ function Home() {
               </div>
             ) : (
               <DataTable loading={loading}>
-                {posts?.map((item, j) => (
+                {filteredPosts?.map((item, j) => (
                   <tr key={j}>
                     <td>
                       <span className="post__avatar">
@@ -172,11 +173,11 @@ function Home() {
               </DataTable>
             )}
 
-            {posts && posts?.length % PAGE_SIZE > 0 && (
+            {filteredPosts && filteredPosts?.length % PAGE_SIZE > 0 && (
               <div className="mt-4">
                 <Pagination
                   currentPage={parseInt(`${currentPage}`, 10)}
-                  totalCount={posts?.length || 0}
+                  totalCount={filteredPosts?.length || 0}
                   onPageChange={(page) => handlePageChange(page)}
                 />
               </div>

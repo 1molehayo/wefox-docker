@@ -9,6 +9,7 @@ import {
   FETCHING_POSTS,
   FETCH_POSTS_FAIL,
   FETCH_POSTS_SUCCESS,
+  SORT_POST,
   UPDATE_POST_FAIL,
   UPDATE_POST_SUCCESS,
   UPDATING_POST
@@ -18,6 +19,7 @@ const reducer = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   state: any,
   action: {
+    filteredPosts?: IPost[];
     type: string;
     posts?: IPost[];
     error?: string;
@@ -32,25 +34,28 @@ const reducer = (
       return {
         ...state,
         loading: false,
-        posts: action.posts
+        posts: action.posts,
+        filteredPosts: action.filteredPosts
       };
     case FETCH_POSTS_FAIL:
       return { ...state, error: action.error, loading: false };
 
     case CREATING_POST:
+    case UPDATING_POST:
+    case DELETING_POST:
       return { ...state, updating: true };
     case CREATE_POST_SUCCESS:
       return {
         ...state,
         updating: false,
+        filteredPosts: [...state.posts, action.singlePost],
         posts: [...state.posts, action.singlePost]
       };
     case CREATE_POST_FAIL:
       return { ...state, error: action.error, updating: false };
 
-    case UPDATING_POST:
-      return { ...state, updating: true };
     case UPDATE_POST_SUCCESS:
+    case DELETE_POST_SUCCESS:
       return {
         ...state,
         updating: false,
@@ -59,16 +64,15 @@ const reducer = (
     case UPDATE_POST_FAIL:
       return { ...state, error: action.error, updating: false };
 
-    case DELETING_POST:
-      return { ...state, updating: true };
-    case DELETE_POST_SUCCESS:
-      return {
-        ...state,
-        updating: false,
-        posts: action.posts
-      };
     case DELETE_POST_FAIL:
       return { ...state, error: action.error, updating: false };
+
+    case SORT_POST:
+      return {
+        ...state,
+        sorting: false,
+        posts: action.posts
+      };
 
     default:
       throw new Error(`unknown action ${action.type}`);

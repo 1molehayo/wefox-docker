@@ -12,33 +12,43 @@ import {
   FETCHING_POSTS,
   FETCH_POSTS_FAIL,
   FETCH_POSTS_SUCCESS,
+  SORT_POST,
   UPDATE_POST_FAIL,
   UPDATE_POST_SUCCESS,
   UPDATING_POST
 } from 'utilities/constants';
 import reducer from './Posts.reducer';
-
-interface IPostContext {
-  createPost: (post: IPost) => void;
-  error: string;
-  fetchPosts: () => void;
-  loading: boolean;
-  posts: IPost[];
-  removePost: (id: number) => void;
-  singlePost?: IPost;
-  success: string;
-  updatePosts: (post: IPost) => void;
-  updating: boolean;
-}
+import IPostContext from 'models/IPostContext';
+import sortState from 'models/SortState';
 
 const ContextDefaultValues: IPostContext = {
   createPost: () => null,
   error: '',
   fetchPosts: () => [],
+  filteredPosts: [],
   loading: false,
   posts: [],
   removePost: () => null,
   singlePost: undefined,
+  sortByColumn: () => null,
+  sorting: false,
+  sortState: [
+    {
+      label: 'Title',
+      dir: 'asc',
+      active: true
+    },
+    {
+      label: 'Content',
+      dir: null,
+      active: false
+    },
+    {
+      label: 'Date',
+      dir: null,
+      active: false
+    }
+  ],
   success: '',
   updatePosts: () => null,
   updating: false
@@ -54,6 +64,43 @@ interface IProps {
 const PostContextProvider = ({ children }: IProps) => {
   const [state, dispatch] = React.useReducer(reducer, ContextDefaultValues);
 
+  const sortBy = (a: any, b: any, field: string) => {
+    if (a[field] < b[field]) {
+      return -1;
+    }
+    if (a[field] > b[field]) {
+      return 1;
+    }
+    return 0;
+  };
+
+  const sortByColumn = (column: string) => {
+    const { sortState, posts } = state;
+    const value = sortState[column as keyof typeof sortState];
+
+    const sortedPosts = posts.sort((a: any, b: any) => sortBy(a, b, column));
+
+    if (value !== 'asc') {
+      dispatch({
+        type: SORT_POST,
+        posts: sortedPosts.reverse()
+      });
+    } else {
+      dispatch({
+        type: SORT_POST,
+        posts: posts.sort((a: any, b: any) => sortBy(a, b, column))
+      });
+    }
+  };
+
+  const sortPostsByCurrent = (postData: IPost[]) => {
+    const { sortState } = state;
+    const obj: sortState = sortState.filter(
+      (item: sortState) => item.active
+    )[0];
+    return postData.sort((a: any, b: any) => sortBy(a, b, obj.label));
+  };
+
   const fetchPosts = () => {
     return new Promise<void>((resolve, reject) => {
       dispatch({ type: FETCHING_POSTS });
@@ -63,6 +110,7 @@ const PostContextProvider = ({ children }: IProps) => {
         .then((response) => {
           dispatch({
             type: FETCH_POSTS_SUCCESS,
+            filteredPosts: sortPostsByCurrent(response.data),
             posts: response.data
           });
           resolve();
@@ -84,9 +132,11 @@ const PostContextProvider = ({ children }: IProps) => {
       axios
         .post('/', newPost)
         .then((response) => {
+          const newPosts = [...state.posts, response.data];
           dispatch({
             type: CREATE_POST_SUCCESS,
-            singlePost: response.data
+            filteredPosts: sortPostsByCurrent(newPosts),
+            posts: newPosts
           });
           resolve();
         })
@@ -118,6 +168,7 @@ const PostContextProvider = ({ children }: IProps) => {
 
           dispatch({
             type: UPDATE_POST_SUCCESS,
+            filteredPosts: sortPostsByCurrent(newPosts),
             posts: [...newPosts]
           });
           resolve();
@@ -135,13 +186,15 @@ const PostContextProvider = ({ children }: IProps) => {
   const removePost = (id: number) => {
     return new Promise<void>((resolve, reject) => {
       dispatch({ type: DELETING_POST });
+      const newPosts = state.posts.filter((item: IPost) => item.id !== id);
 
       axios
         .delete(`/${id}`)
         .then(() => {
           dispatch({
             type: DELETE_POST_SUCCESS,
-            posts: state.posts.filter((item: IPost) => item.id !== id)
+            filteredPosts: sortPostsByCurrent(newPosts),
+            posts: [...newPosts]
           });
           resolve();
         })
@@ -157,7 +210,14 @@ const PostContextProvider = ({ children }: IProps) => {
 
   return (
     <PostContext.Provider
-      value={{ ...state, createPost, fetchPosts, removePost, updatePosts }}
+      value={{
+        ...state,
+        createPost,
+        fetchPosts,
+        removePost,
+        sortByColumn,
+        updatePosts
+      }}
     >
       {children}
     </PostContext.Provider>

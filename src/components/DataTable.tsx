@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import { Table as ReactTable } from 'react-bootstrap';
 import Loader from 'components/Loader';
 import NoData from 'components/NoData';
+import { PostContext } from 'contexts/Posts';
 
 interface ITable {
   children: React.ReactNode;
@@ -20,6 +21,7 @@ const DataTable = ({
   noDataClass
 }: ITable) => {
   const headers = ['', 'Title', 'Co-ordinates', 'Content', 'Date', ''];
+  const { sortByColumn } = React.useContext(PostContext);
 
   return (
     <div className="data-table scrollbar scrollbar--table">
@@ -41,6 +43,7 @@ const DataTable = ({
                   style={{
                     whiteSpace: 'nowrap'
                   }}
+                  onClick={() => sortByColumn(item)}
                 >
                   {item}
                 </th>

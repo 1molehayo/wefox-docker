@@ -16,6 +16,8 @@ export const DELETING_POST = 'DELETING_POST';
 export const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS';
 export const DELETE_POST_FAIL = 'DELETE_POST_FAIL';
 
+export const SORT_POST = 'SORT_POST';
+
 export const DEFAULT_PROPS = {
   center: {
     lat: 6.445944600000001,
