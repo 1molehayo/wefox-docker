@@ -34,8 +34,8 @@ const reducer = (
       return {
         ...state,
         loading: false,
-        posts: action.posts,
-        filteredPosts: action.filteredPosts
+        filteredPosts: action.filteredPosts,
+        posts: action.posts
       };
     case FETCH_POSTS_FAIL:
       return { ...state, error: action.error, loading: false };
@@ -44,23 +44,19 @@ const reducer = (
     case UPDATING_POST:
     case DELETING_POST:
       return { ...state, updating: true };
-    case CREATE_POST_SUCCESS:
-      return {
-        ...state,
-        updating: false,
-        filteredPosts: [...state.posts, action.singlePost],
-        posts: [...state.posts, action.singlePost]
-      };
-    case CREATE_POST_FAIL:
-      return { ...state, error: action.error, updating: false };
 
+    case CREATE_POST_SUCCESS:
     case UPDATE_POST_SUCCESS:
     case DELETE_POST_SUCCESS:
       return {
         ...state,
         updating: false,
+        filteredPosts: action.filteredPosts,
         posts: action.posts
       };
+    case CREATE_POST_FAIL:
+      return { ...state, error: action.error, updating: false };
+
     case UPDATE_POST_FAIL:
       return { ...state, error: action.error, updating: false };
 

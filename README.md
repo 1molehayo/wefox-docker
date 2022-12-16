@@ -1,15 +1,41 @@
-# Getting Started with Create React App
+# Wefox Frontend Challenge
+
+A simple implementation of DataTable to perform CRUD operations on some posts listed by a dockerized API.
+
+## Docker
+
+A docker configuration is provided with a pre-built image that includes the server API, the server uses a local sqlite database and runs in development mode, so the stdout is in verbose mode.
+Find the details of how to run the API server in the README of the Docker repository below:
+
+[Docker repository](https://hub.docker.com/r/wefoxgroup/wg-web-challenge).
+
+### `docker compose up`
+
+Dockerized API that operates over a single resource called posts.\
+Open [http://localhost:3000/api/v1/posts](http://localhost:3000/api/v1/posts) to view it in postman.
+
+## Client
+
+React was used for the client-side.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Client Configuration
 
-In the project directory, you can run:
+To run the app locally you need to set up an env file with the following properties:
+
+**REACT_APP_GOOGLE_MAP_KEY**
+**REACT_APP_CLOUD_NAME**
+**REACT_APP_CLOUD_PRESET_NAME**
+
+A sample with cridentials that works can be seen in the `env.sample.ts` file and can be used to test the app, you just need to make an `.env` file.
+
+In the client project directory, you can run:
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Client app runs the app in the development mode.\
+Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
